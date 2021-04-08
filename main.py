@@ -54,6 +54,4 @@ def mailcreate():
                     eml_file = Generator(eml)
                     eml_file.flatten(mail_data)
 
-#添付ファイルなしだった場合はそのまま終了する
 
-    print("メールの作成が完了しました。")
