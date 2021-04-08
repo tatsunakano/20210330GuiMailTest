@@ -3,10 +3,12 @@ import sys
 from PyQt5.QtWidgets import (QLabel, QRadioButton,
                              QPushButton, QVBoxLayout,
                              QHBoxLayout, QApplication,
-                             QWidget, QButtonGroup)
+                             QWidget, QButtonGroup,
+                             QMessageBox)
 
 import main
 
+#GUIの環境作成
 class MailTest(QWidget):
 
     def __init__(self):
@@ -32,7 +34,10 @@ class MailTest(QWidget):
         self.buttonA = QPushButton("メール作成", self)
         self.buttonA.setEnabled(False)
         self.buttonA.clicked.connect(self.mail_create)
+        self.buttonB = QPushButton("キャンセル", self)
+        self.buttonB.clicked.connect(self.mail_cansel)
 
+#ＧＵＩのレイアウトを決める
         h_layout = QHBoxLayout()
         h_layout.addWidget(self.attach1)
         h_layout.addWidget(self.attach2)
@@ -41,6 +46,7 @@ class MailTest(QWidget):
         v_layout.addWidget(self.label1)
         v_layout.addLayout(h_layout)
         v_layout.addWidget(self.buttonA)
+        v_layout.addWidget(self.buttonB)
 
         self.setLayout(v_layout)
 
@@ -50,6 +56,7 @@ class MailTest(QWidget):
 
         self.show()
 
+#ラジオボタンを選んだ時の動作
     def onClickMail(self):
         radioAttach = self.sender()
         if radioAttach.isChecked():
@@ -60,9 +67,16 @@ class MailTest(QWidget):
                 self.checkAtt = 1
                 self.buttonA.setEnabled(True)
 
+#メール作成のボタンを押した時の動作
     def mail_create(self):
         main.mail_attach_int = self.checkAtt
         main.mailcreate()
+        QMessageBox.information(None, "通知", "メール作成が完了しました。", QMessageBox.Yes)
+        QApplication.quit()
+
+#キャンセルボタンを押したときの動作
+    def mail_cansel(self):
+        QMessageBox.information(None, "通知", "メール作成をキャンセルしました。", QMessageBox.Yes)
         QApplication.quit()
 
 if __name__ == "__main__":
